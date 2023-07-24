@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-resources
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-resources
+  template:
+    metadata:
+      labels:
+        app: app-resources
+    spec:
+      containers:
+      - name: app-resources
+        image: gcr.io/k8s-test5/demo:v1.0.0
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-resources
+spec:
+  selector:
+    app: app-resources
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  type: ClusterIP
