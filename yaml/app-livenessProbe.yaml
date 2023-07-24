@@ -1,1 +1,26 @@
-
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-livenessProbe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-livenessProbe
+  template:
+    metadata:
+      labels:
+        app: app-livenessProbe
+    spec:
+      containers:
+      - name: app-livenessProbe
+        image: gcr.io/k8s-test5/demo:v1.0.0
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
