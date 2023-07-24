@@ -1,31 +1,13 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: app-job
+  name: cleanup-job
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: app-job
   template:
-    metadata:
-      labels:
-        app: app-job
     spec:
       containers:
-      - name: app-job
-        image: gcr.io/k8s-test5/demo:v1.0.0
-        imagePullPolicy: Always
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: app-job
-spec:
-  selector:
-    app: app-job
-  ports:
-  - name: http
-    port: 80
-    targetPort: 80
-    protocol: TCP
+      - name: cleanup-container
+        image: cleanup-image
+        command: ["sh", "-c", "cleanup-script.sh"]
+      restartPolicy: Never
+  backoffLimit: 4
