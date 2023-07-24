@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: <your-image>
+        image: gcr.io/k8s-test5/demo:v1.0.0
         ports:
         - containerPort: 80
 ---
